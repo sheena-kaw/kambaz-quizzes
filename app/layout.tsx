@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 //import "./globals.css";
-import KambazNavigation from "./(Kambaz)/Account/Navigation";
+//import KambazNavigation from "./(Kambaz)/Account/Navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <td valign="top" width="200">  <KambazNavigation /> </td>
+        {/* <td valign="top" width="200">  <KambazNavigation /> </td> */}
         {children}
       </body>
     </html>
