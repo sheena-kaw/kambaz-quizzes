@@ -5,12 +5,12 @@ export default async function CoursesLayout(
  const { id } = await params;
  return (
    <div id="wd-courses">
-     <h2>Courses {id}</h2>
+     <h2>Course CS1234</h2>
      <hr />
      <table>
        <tbody>
          <tr>
-           <td valign="top" width="200"> <CourseNavigation /> </td>
+           <td valign="top" width="200"> <CourseNavigation id ={id} /> </td>
            <td valign="top" width="100%"> {children} </td>
          </tr>
        </tbody>
