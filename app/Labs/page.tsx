@@ -17,5 +17,11 @@ export default function Labs() {
            Lab 3: JavaScript Fundamentals </Link>
        </li>
      </ul>
+     <br/>
+     <br/>
+     <br/>
+     <br/>
+     <h4>Owner: Amani Scarborough</h4>
+     <p>Section: CS4550.11597.202610</p>
    </div>
 );}
