@@ -1,4 +1,4 @@
-export default function () {
+export default function Zindex() {
   return (
     <div id="wd-z-index">
       <h2>Z index</h2>
