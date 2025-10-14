@@ -20,7 +20,7 @@ export default function Destructing() {
       <br />
       <br />
       <h3>Array Destructing</h3>
-      const [first, second, third] = [&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]
+      const [first, second, third] = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
       <br />
       <br />
       first = {first}
