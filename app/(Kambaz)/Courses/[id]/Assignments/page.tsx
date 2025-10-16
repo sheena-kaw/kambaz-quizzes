@@ -111,12 +111,25 @@ import { FaCaretDown } from "react-icons/fa6";
 import { useParams } from "next/navigation";
 import * as db from "../../../Database";
 
+type Assignment = {
+  _id: string;
+  title: string;
+  course: string;
+  description: string;
+  available: string;
+  due: string;
+  avail_from_num: string;
+  avail_to_num: string;
+  due_num: string;
+  points: string;
+};
+
 export default function Assignments() {
   const { id } = useParams();
-  const assignments = db.assignments;
+  const assignments: Assignment[] = db.assignments;
 
   const courseAssignments = assignments.filter(
-    (assignment: any) => assignment.course === id
+    (assignment) => assignment.course === id
   );
 
   return (
@@ -143,7 +156,7 @@ export default function Assignments() {
           </div>
 
           <ListGroup className="wd-assignments rounded-0">
-            {courseAssignments.map((assignment: any) => (
+            {courseAssignments.map((assignment) => (
               <ListGroupItem
                 key={assignment._id}
                 className="wd-assignment d-flex align-items-center justify-content-between px-3 py-2"

@@ -4,10 +4,23 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import * as db from "../../../../Database";
 
+type Assignment = {
+  _id: string;
+  title: string;
+  course: string;
+  description: string;
+  available: string;
+  due: string;
+  avail_from_num: string;
+  avail_to_num: string;
+  due_num: string;
+  points: string;
+};
+
 export default function AssignmentEditor() {
   const { id, aid } = useParams();
-  const assignments = db.assignments;
-  const assignment = assignments.find((a: any) => a._id === aid);
+  const assignments: Assignment[] = db.assignments;
+  const assignment = assignments.find((a) => a._id === aid);
 
 
   return (

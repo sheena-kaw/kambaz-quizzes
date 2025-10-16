@@ -76,11 +76,26 @@ import ModuleControlButtons from "./ModuleControlButtons";
 import { useParams } from "next/navigation";
 import * as db from "../../../Database";
 
+interface Lesson {
+  _id: string;
+  name: string;
+  description: string;
+  module: string;
+}
+
+interface Module {
+  _id: string;
+  name: string;
+  description: string;
+  course: string;
+  lessons?: Lesson[];
+}
+
 export default function Modules() {
   const { id } = useParams();
-  const modules = db.modules;
+  const modules: Module[] = db.modules;
 
-  const courseModules = modules.filter((module: any) => module.course === id);
+  const courseModules = modules.filter((module) => module.course === id);
 
   return (
     <div>
@@ -91,7 +106,7 @@ export default function Modules() {
       <br />
 
       <ListGroup id="wd-modules" className="rounded-0">
-        {courseModules.map((module: any) => (
+        {courseModules.map((module) => (
           <ListGroupItem
             key={module._id}
             className="wd-module p-0 mb-5 fs-5 border-gray"
@@ -105,7 +120,7 @@ export default function Modules() {
 
             {module.lessons && module.lessons.length > 0 && (
               <ListGroup className="wd-lessons rounded-0">
-                {module.lessons.map((lesson: any) => (
+                {module.lessons.map((lesson) => (
                   <ListGroupItem
                     key={lesson._id}
                     className="wd-lesson p-3 ps-1 d-flex align-items-center justify-content-between"
