@@ -1,20 +1,28 @@
 "use client";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import * as db from "../../../../Database";
 
 export default function AssignmentEditor() {
+  const { id, aid } = useParams();
+  const assignments = db.assignments;
+  const assignment = assignments.find((a: any) => a._id === aid);
+
+
   return (
     <div id="wd-assignments-editor" className="p-3">
       <Form>
         <Form.Group className="mb-3" controlId="wd-name">
           <Form.Label>Assignment Name</Form.Label>
-          <Form.Control type="text" defaultValue="A1 - ENV + HTML" />
+          <Form.Control type="text" defaultValue={assignment?.title} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="wd-description">
           <Form.Control
             as="textarea"
             rows={3}
-            defaultValue="The assignment is available online. Submit a link to the landing page of your web application running on Netlify"
+            defaultValue={assignment?.description}
           />
         </Form.Group>
 
@@ -23,7 +31,7 @@ export default function AssignmentEditor() {
             Points
           </Form.Label>
           <Col sm={4}>
-            <Form.Control type="number" defaultValue={100} />
+            <Form.Control type="number" defaultValue={assignment?.points} />
           </Col>
         </Form.Group>
 
@@ -119,29 +127,33 @@ export default function AssignmentEditor() {
 
               <Form.Group className="mb-3" controlId="wd-due-date">
                 <Form.Label className="fw-bold">Due</Form.Label>
-                <Form.Control type="date" defaultValue="2024-05-13" />
+                <Form.Control type="date" defaultValue={assignment?.due_num} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="wd-available-from">
                 <Form.Label className="fw-bold">Available From</Form.Label>
-                <Form.Control type="date" defaultValue="2024-05-06" />
+                <Form.Control type="date" defaultValue={assignment?.avail_from_num} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="wd-available-until">
                 <Form.Label className="fw-bold">Available Until</Form.Label>
-                <Form.Control type="date" defaultValue="2024-05-20" />
+                <Form.Control type="date" defaultValue={assignment?.avail_to_num} />
               </Form.Group>
             </div>
           </Col>
         </Form.Group>
 
         <div className="d-flex justify-content-end gap-2">
-          <Button variant="secondary" id="wd-cancel">
-            Cancel
-          </Button>
-          <Button variant="danger" id="wd-save">
-            Save
-          </Button>
+          <Link href={`/Courses/${id}/Assignments`}>
+            <Button variant="secondary" id="wd-cancel">
+              Cancel
+            </Button>
+          </Link>
+          <Link href={`/Courses/${id}/Assignments`}>
+            <Button variant="danger" id="wd-save">
+              Save
+            </Button>
+          </Link>
         </div>
       </Form>
     </div>
