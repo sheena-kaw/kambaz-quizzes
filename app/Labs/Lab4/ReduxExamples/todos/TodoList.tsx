@@ -13,7 +13,7 @@ export default function TodoList() {
       <ListGroup>
         <TodoForm />
         {todos.map((todo: any) => (
-          <TodoItem todo={todo} />
+          <TodoItem key={todo.id} todo={todo} />
         ))}
       </ListGroup>
       <hr />
