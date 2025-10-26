@@ -1,0 +1,5 @@
+export default function Lab5() {
+    return(
+        <h2>Lab 5</h2>
+    );
+}
