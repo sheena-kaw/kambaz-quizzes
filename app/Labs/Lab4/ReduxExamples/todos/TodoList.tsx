@@ -1,3 +1,5 @@
+"use client";
+
 import { ListGroup } from "react-bootstrap";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
