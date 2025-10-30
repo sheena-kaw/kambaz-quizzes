@@ -35,3 +35,9 @@ body * {
 .wd-assignment {
   border-left: 3px solid green !important;
 }
+
+.btn-pink {
+  background-color: pink;
+  border-color: pink;
+  color: black;
+}

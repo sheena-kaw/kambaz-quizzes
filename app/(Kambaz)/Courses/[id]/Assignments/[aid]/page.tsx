@@ -1,41 +1,124 @@
 "use client";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import * as db from "../../../../Database";
 
-type Assignment = {
-  _id: string;
-  title: string;
-  course: string;
-  description: string;
-  available: string;
-  due: string;
-  avail_from_num: string;
-  avail_to_num: string;
-  due_num: string;
-  points: string;
-};
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { useParams, useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "../../Assignments/reducer";
+import { useEffect, useState } from "react";
 
 export default function AssignmentEditor() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const { id, aid } = useParams();
-  const assignments: Assignment[] = db.assignments;
-  const assignment = assignments.find((a) => a._id === aid);
+  const assignments = useSelector(
+    (state: any) => state.assignmentsReducer.assignments
+  );
+  const existing = assignments.find((a: any) => a._id === aid);
 
+  // const [title, setTitle] = useState(existing?.title || "");
+  // const [description, setDescription] = useState(existing?.description || "");
+  // const [points, setPoints] = useState(existing?.points || "100");
+  // const [due, setDue] = useState(existing?.due_num || "");
+  // const [availableFrom, setAvailableFrom] = useState(existing?.avail_from_num || "");
+  // const [availableUntil, setAvailableUntil] = useState(existing?.avail_to_num || "");
+
+  // const handleSave = () => {
+  //   if (!existing) {
+  //     dispatch(
+  //       addAssignment({
+  //         _id: `A${Math.floor(Math.random() * 1000)}`,
+  //         title,
+  //         description,
+  //         points,
+  //         due_num: due,
+  //         avail_from_num: availableFrom,
+  //         avail_to_num: availableUntil,
+  //         due: new Date(due).toLocaleDateString(),
+  //         available: new Date(availableFrom).toLocaleDateString(),
+  //         course: id,
+  //       })
+  //     );
+  //   }
+  //   router.push(`/Courses/${id}/Assignments`);
+  // };
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState("100");
+  const [due, setDue] = useState("");
+  const [availableFrom, setAvailableFrom] = useState("");
+  const [availableUntil, setAvailableUntil] = useState("");
+
+  // Populate state if editing
+  useEffect(() => {
+    if (existing) {
+      setTitle(existing.title);
+      setDescription(existing.description);
+      setPoints(existing.points);
+      setDue(existing.due_num);
+      setAvailableFrom(existing.avail_from_num);
+      setAvailableUntil(existing.avail_to_num);
+    }
+  }, [existing]);
+
+  // Save handler
+  const handleSave = () => {
+    if (existing) {
+      // ✅ Update existing assignment
+      dispatch(
+        updateAssignment({
+          ...existing,
+          title,
+          description,
+          points,
+          due_num: due,
+          avail_from_num: availableFrom,
+          avail_to_num: availableUntil,
+          due: new Date(due).toLocaleDateString(),
+          available: new Date(availableFrom).toLocaleDateString(),
+        })
+      );
+    } else {
+      // ✅ Create new assignment
+      dispatch(
+        addAssignment({
+          _id: `A${Math.floor(Math.random() * 1000)}`,
+          title,
+          description,
+          points,
+          due_num: due,
+          avail_from_num: availableFrom,
+          avail_to_num: availableUntil,
+          due: new Date(due).toLocaleDateString(),
+          available: new Date(availableFrom).toLocaleDateString(),
+          course: id,
+        })
+      );
+    }
+    router.push(`/Courses/${id}/Assignments`);
+  };
+
+  // Cancel handler
+  const handleCancel = () => router.push(`/Courses/${id}/Assignments`);
 
   return (
     <div id="wd-assignments-editor" className="p-3">
       <Form>
         <Form.Group className="mb-3" controlId="wd-name">
           <Form.Label>Assignment Name</Form.Label>
-          <Form.Control type="text" defaultValue={assignment?.title} />
+          <Form.Control
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="wd-description">
           <Form.Control
             as="textarea"
             rows={3}
-            defaultValue={assignment?.description}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
 
@@ -44,7 +127,11 @@ export default function AssignmentEditor() {
             Points
           </Form.Label>
           <Col sm={4}>
-            <Form.Control type="number" defaultValue={assignment?.points} />
+            <Form.Control
+              type="number"
+              value={points}
+              onChange={(e) => setPoints(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
@@ -79,7 +166,6 @@ export default function AssignmentEditor() {
           <Form.Label column sm={2}>
             Submission Type
           </Form.Label>
-
           <Col sm={6}>
             <div className="border p-3 rounded">
               <Form.Group className="mb-3" controlId="wd-submission-type">
@@ -91,36 +177,15 @@ export default function AssignmentEditor() {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="wd-online-entry-options">
-                <br />
                 <Form.Label className="fw-bold">
                   Online Entry Options:
                 </Form.Label>
                 <br />
-                <Form.Check
-                  type="checkbox"
-                  label="Text Entry"
-                  id="wd-text-entry"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="Website URL"
-                  id="wd-website-url"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="Media Recordings"
-                  id="wd-media-recordings"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="Student Annotation"
-                  id="wd-student-annotation"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="File Upload"
-                  id="wd-file-upload"
-                />
+                <Form.Check type="checkbox" label="Text Entry" />
+                <Form.Check type="checkbox" label="Website URL" />
+                <Form.Check type="checkbox" label="Media Recordings" />
+                <Form.Check type="checkbox" label="Student Annotation" />
+                <Form.Check type="checkbox" label="File Upload" />
               </Form.Group>
             </div>
           </Col>
@@ -130,7 +195,6 @@ export default function AssignmentEditor() {
           <Form.Label column sm={2}>
             Assign
           </Form.Label>
-
           <Col sm={6}>
             <div className="border p-3 rounded">
               <Form.Group className="mb-3" controlId="wd-assign-to">
@@ -140,33 +204,45 @@ export default function AssignmentEditor() {
 
               <Form.Group className="mb-3" controlId="wd-due-date">
                 <Form.Label className="fw-bold">Due</Form.Label>
-                <Form.Control type="date" defaultValue={assignment?.due_num} />
+                <Form.Control
+                  type="date"
+                  value={due}
+                  onChange={(e) => setDue(e.target.value)}
+                />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="wd-available-from">
                 <Form.Label className="fw-bold">Available From</Form.Label>
-                <Form.Control type="date" defaultValue={assignment?.avail_from_num} />
+                <Form.Control
+                  type="date"
+                  value={availableFrom}
+                  onChange={(e) => setAvailableFrom(e.target.value)}
+                />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="wd-available-until">
                 <Form.Label className="fw-bold">Available Until</Form.Label>
-                <Form.Control type="date" defaultValue={assignment?.avail_to_num} />
+                <Form.Control
+                  type="date"
+                  value={availableUntil}
+                  onChange={(e) => setAvailableUntil(e.target.value)}
+                />
               </Form.Group>
             </div>
           </Col>
         </Form.Group>
 
         <div className="d-flex justify-content-end gap-2">
-          <Link href={`/Courses/${id}/Assignments`}>
-            <Button variant="secondary" id="wd-cancel">
-              Cancel
-            </Button>
-          </Link>
-          <Link href={`/Courses/${id}/Assignments`}>
-            <Button variant="danger" id="wd-save">
-              Save
-            </Button>
-          </Link>
+          <Button
+            variant="secondary"
+            id="wd-cancel"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button variant="danger" id="wd-save" onClick={handleSave}>
+            Save
+          </Button>
         </div>
       </Form>
     </div>

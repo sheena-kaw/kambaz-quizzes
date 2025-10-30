@@ -1,8 +1,15 @@
+"use client";
+
 import { Button } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
+import { useRouter, useParams } from "next/navigation";
 
 export default function AssignmentsControls() {
+
+  const router = useRouter();
+  const { id } = useParams();
+  
   return (
     <div
       id="wd-modules-controls"
@@ -24,7 +31,7 @@ export default function AssignmentsControls() {
           variant="secondary"
           size="lg"
           className="me-1 float-end"
-          id="wd-add-module-btn"
+          id="wd-add-group-btn"
         >
           <FaPlus
             className="position-relative me-2"
@@ -36,7 +43,8 @@ export default function AssignmentsControls() {
           variant="danger"
           size="lg"
           className="me-1 float-end"
-          id="wd-add-module-btn"
+          id="wd-add-assignment-btn"
+          onClick={() => router.push(`/Courses/${id}/Assignments/New`)}
         >
           <FaPlus
             className="position-relative me-2"
