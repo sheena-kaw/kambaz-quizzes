@@ -15,33 +15,6 @@ export default function AssignmentEditor() {
   );
   const existing = assignments.find((a: any) => a._id === aid);
 
-  // const [title, setTitle] = useState(existing?.title || "");
-  // const [description, setDescription] = useState(existing?.description || "");
-  // const [points, setPoints] = useState(existing?.points || "100");
-  // const [due, setDue] = useState(existing?.due_num || "");
-  // const [availableFrom, setAvailableFrom] = useState(existing?.avail_from_num || "");
-  // const [availableUntil, setAvailableUntil] = useState(existing?.avail_to_num || "");
-
-  // const handleSave = () => {
-  //   if (!existing) {
-  //     dispatch(
-  //       addAssignment({
-  //         _id: `A${Math.floor(Math.random() * 1000)}`,
-  //         title,
-  //         description,
-  //         points,
-  //         due_num: due,
-  //         avail_from_num: availableFrom,
-  //         avail_to_num: availableUntil,
-  //         due: new Date(due).toLocaleDateString(),
-  //         available: new Date(availableFrom).toLocaleDateString(),
-  //         course: id,
-  //       })
-  //     );
-  //   }
-  //   router.push(`/Courses/${id}/Assignments`);
-  // };
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [points, setPoints] = useState("100");
@@ -49,7 +22,6 @@ export default function AssignmentEditor() {
   const [availableFrom, setAvailableFrom] = useState("");
   const [availableUntil, setAvailableUntil] = useState("");
 
-  // Populate state if editing
   useEffect(() => {
     if (existing) {
       setTitle(existing.title);
@@ -61,10 +33,14 @@ export default function AssignmentEditor() {
     }
   }, [existing]);
 
-  // Save handler
+  const currentUser = useSelector((state: any) => state.accountReducer?.currentUser);
+
   const handleSave = () => {
+    if (currentUser?.role !== "FACULTY") {
+    alert("Only faculty members can edit assignments.");
+    return;
+  }
     if (existing) {
-      // ✅ Update existing assignment
       dispatch(
         updateAssignment({
           ...existing,
@@ -79,7 +55,6 @@ export default function AssignmentEditor() {
         })
       );
     } else {
-      // ✅ Create new assignment
       dispatch(
         addAssignment({
           _id: `A${Math.floor(Math.random() * 1000)}`,
@@ -98,7 +73,6 @@ export default function AssignmentEditor() {
     router.push(`/Courses/${id}/Assignments`);
   };
 
-  // Cancel handler
   const handleCancel = () => router.push(`/Courses/${id}/Assignments`);
 
   return (

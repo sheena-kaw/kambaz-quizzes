@@ -4,12 +4,15 @@ import { Button } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
 import { useRouter, useParams } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function AssignmentsControls() {
-
   const router = useRouter();
   const { id } = useParams();
-  
+  const currentUser = useSelector(
+    (state: any) => state.accountReducer?.currentUser
+  );
+
   return (
     <div
       id="wd-modules-controls"
@@ -26,33 +29,36 @@ export default function AssignmentsControls() {
           className="form-control"
         />
       </div>
-      <div className="d-flex gap-2 ms-auto">
-        <Button
-          variant="secondary"
-          size="lg"
-          className="me-1 float-end"
-          id="wd-add-group-btn"
-        >
-          <FaPlus
-            className="position-relative me-2"
-            style={{ bottom: "1px" }}
-          />
-          Group
-        </Button>
-        <Button
-          variant="danger"
-          size="lg"
-          className="me-1 float-end"
-          id="wd-add-assignment-btn"
-          onClick={() => router.push(`/Courses/${id}/Assignments/New`)}
-        >
-          <FaPlus
-            className="position-relative me-2"
-            style={{ bottom: "1px" }}
-          />
-          Assignment
-        </Button>
-      </div>
+
+      {currentUser?.role === "FACULTY" && (
+        <div className="d-flex gap-2 ms-auto">
+          <Button
+            variant="secondary"
+            size="lg"
+            className="me-1 float-end"
+            id="wd-add-group-btn"
+          >
+            <FaPlus
+              className="position-relative me-2"
+              style={{ bottom: "1px" }}
+            />
+            Group
+          </Button>
+          <Button
+            variant="danger"
+            size="lg"
+            className="me-1 float-end"
+            id="wd-add-assignment-btn"
+            onClick={() => router.push(`/Courses/${id}/Assignments/New`)}
+          >
+            <FaPlus
+              className="position-relative me-2"
+              style={{ bottom: "1px" }}
+            />
+            Assignment
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

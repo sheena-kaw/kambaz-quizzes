@@ -4,14 +4,29 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteAssignment } from "../Assignments/reducer";
 
-export default function AssignmentControlButtons({ assignmentId }: { assignmentId: string }) {
+export default function AssignmentControlButtons({
+  assignmentId,
+}: {
+  assignmentId: string;
+}) {
   const dispatch = useDispatch();
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleDeleteClick = () => setShowConfirm(true);
+  const currentUser = useSelector(
+    (state: any) => state.accountReducer?.currentUser
+  );
+
+  const handleDeleteClick = () => {
+    if (currentUser?.role !== "FACULTY") {
+      alert("Only faculty members can delete assignments.");
+      return;
+    }
+
+    setShowConfirm(true);
+  };
 
   const handleConfirmYes = () => {
     dispatch(deleteAssignment(assignmentId));
@@ -39,10 +54,16 @@ export default function AssignmentControlButtons({ assignmentId }: { assignmentI
         >
           <p className="mb-2">Delete this assignment?</p>
           <div className="d-flex justify-content-end gap-2">
-            <button className="btn btn-secondary btn-sm" onClick={handleConfirmNo}>
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={handleConfirmNo}
+            >
               Cancel
             </button>
-            <button className="btn btn-danger btn-sm" onClick={handleConfirmYes}>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={handleConfirmYes}
+            >
               Yes
             </button>
           </div>
@@ -51,4 +72,3 @@ export default function AssignmentControlButtons({ assignmentId }: { assignmentI
     </div>
   );
 }
-
