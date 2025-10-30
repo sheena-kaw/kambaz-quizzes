@@ -24,16 +24,6 @@ export default function Dashboard() {
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const dispatch = useDispatch();
 
-  if (!currentUser) {
-    return (
-      <div className="text-center mt-5">
-        <h3>Loading dashboard...</h3>
-      </div>
-    );
-  }
-
-  const isFaculty = currentUser?.role === "FACULTY";
-
   const [showAllCourses, setShowAllCourses] = useState(false);
   const [course, setCourse] = useState<any>({
     _id: "0",
@@ -44,6 +34,16 @@ export default function Dashboard() {
     image: "/images/teslabot.jpg",
     description: "New Description",
   });
+
+  if (!currentUser) {
+    return (
+      <div className="text-center mt-5">
+        <h3>Loading dashboard...</h3>
+      </div>
+    );
+  }
+
+  const isFaculty = currentUser?.role === "FACULTY";
 
   const toggleEnrollmentsView = () => setShowAllCourses(!showAllCourses);
 
