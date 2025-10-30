@@ -24,6 +24,14 @@ export default function Dashboard() {
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const dispatch = useDispatch();
 
+  if (!currentUser) {
+    return (
+      <div className="text-center mt-5">
+        <h3>Loading dashboard...</h3>
+      </div>
+    );
+  }
+
   const isFaculty = currentUser?.role === "FACULTY";
 
   const [showAllCourses, setShowAllCourses] = useState(false);
@@ -48,13 +56,6 @@ export default function Dashboard() {
     ? courses
     : courses.filter((course: any) => isUserEnrolled(course._id));
 
-  if (!currentUser) {
-    return (
-      <div className="text-center mt-5">
-        <h3>Loading dashboard...</h3>
-      </div>
-    );
-  }
 
   return (
     <div id="wd-dashboard">
