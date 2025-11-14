@@ -7,20 +7,29 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import * as db from "../../Database";
 import { FormControl, Button } from "react-bootstrap";
+import * as client from "../client";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
   const dispatch = useDispatch();
-  const signin = () => {
-    const user = db.users.find(
-      (u: any) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    );
+  // const signin = () => {
+  //   const user = db.users.find(
+  //     (u: any) =>
+  //       u.username === credentials.username &&
+  //       u.password === credentials.password
+  //   );
+  //   if (!user) return;
+  //   dispatch(setCurrentUser(user));
+  //   redirect("/Dashboard");
+  // };
+
+  const signin = async () => {
+    const user =  await client.signin(credentials);
     if (!user) return;
     dispatch(setCurrentUser(user));
     redirect("/Dashboard");
   };
+
 
   return (
     <div
@@ -33,7 +42,7 @@ export default function Signin() {
       <h2>Sign in</h2>
       <br />
 
-      <div style={{ width: "350px" }}>
+      <div style={{ width: "450px" }}>
         <FormControl
           defaultValue={credentials.username}
           onChange={(e) =>
@@ -54,7 +63,7 @@ export default function Signin() {
           className="mb-2"
         />
         <br />
-        <Button onClick={signin} id="wd-signin-btn" className="w-100">
+        <Button onClick={signin} id="wd-signin-btn" className="mb-2 w-100">
           {" "}
           Sign in{" "}
         </Button>

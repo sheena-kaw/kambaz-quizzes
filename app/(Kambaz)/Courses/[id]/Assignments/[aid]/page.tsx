@@ -3,8 +3,9 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, updateAssignment } from "../../Assignments/reducer";
+import { setAssignments } from "../../Assignments/reducer";
 import { useEffect, useState } from "react";
+import * as client from "../../../client";
 
 export default function AssignmentEditor() {
   const router = useRouter();
@@ -35,41 +36,80 @@ export default function AssignmentEditor() {
 
   const currentUser = useSelector((state: any) => state.accountReducer?.currentUser);
 
-  const handleSave = () => {
+  // const handleSave = async () => {
+  //   if (currentUser?.role !== "FACULTY") {
+  //   alert("Only faculty members can edit assignments.");
+  //   return;
+  // }
+  //   if (existing) {
+  //     dispatch(
+  //       updateAssignment({
+  //         ...existing,
+  //         title,
+  //         description,
+  //         points,
+  //         due_num: due,
+  //         avail_from_num: availableFrom,
+  //         avail_to_num: availableUntil,
+  //         due: new Date(due).toLocaleDateString(),
+  //         available: new Date(availableFrom).toLocaleDateString(),
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       addAssignment({
+  //         _id: `A${Math.floor(Math.random() * 1000)}`,
+  //         title,
+  //         description,
+  //         points,
+  //         due_num: due,
+  //         avail_from_num: availableFrom,
+  //         avail_to_num: availableUntil,
+  //         due: new Date(due).toLocaleDateString(),
+  //         available: new Date(availableFrom).toLocaleDateString(),
+  //         course: id,
+  //       })
+  //     );
+  //   }
+  //   router.push(`/Courses/${id}/Assignments`);
+  // };
+
+  const handleSave = async () => {
     if (currentUser?.role !== "FACULTY") {
-    alert("Only faculty members can edit assignments.");
-    return;
-  }
-    if (existing) {
-      dispatch(
-        updateAssignment({
-          ...existing,
-          title,
-          description,
-          points,
-          due_num: due,
-          avail_from_num: availableFrom,
-          avail_to_num: availableUntil,
-          due: new Date(due).toLocaleDateString(),
-          available: new Date(availableFrom).toLocaleDateString(),
-        })
-      );
-    } else {
-      dispatch(
-        addAssignment({
-          _id: `A${Math.floor(Math.random() * 1000)}`,
-          title,
-          description,
-          points,
-          due_num: due,
-          avail_from_num: availableFrom,
-          avail_to_num: availableUntil,
-          due: new Date(due).toLocaleDateString(),
-          available: new Date(availableFrom).toLocaleDateString(),
-          course: id,
-        })
-      );
+      alert("Only faculty members can edit assignments.");
+      return;
     }
+
+    const assignmentInfo = {
+      title,
+      description,
+      points,
+      due_num: due,
+      avail_from_num: availableFrom,
+      avail_to_num: availableUntil,
+      due: new Date(due).toLocaleDateString(),
+      available: new Date(availableFrom).toLocaleDateString(),
+      course: id,
+    };
+
+    if (existing) {
+      const updatedAssignment = await client.updateAssignment({
+        ...existing,
+        ...assignmentInfo,
+      });
+      const newAssignments = assignments.map((a: any) => 
+        a._id === updatedAssignment._id ? updatedAssignment : a
+      );
+      dispatch(setAssignments(newAssignments));
+    } else {
+      const courseId = Array.isArray(id) ? id[0] : id;
+      const newAssignment = await client.createAssignmentForCourse(
+        courseId as string,
+        assignmentInfo
+      );
+      dispatch(setAssignments([...assignments, newAssignment]));
+    }
+    
     router.push(`/Courses/${id}/Assignments`);
   };
 

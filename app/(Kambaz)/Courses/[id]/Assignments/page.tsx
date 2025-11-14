@@ -9,16 +9,36 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import { GiNotebook } from "react-icons/gi";
 import { FaCaretDown } from "react-icons/fa6";
 import { useParams } from "next/navigation";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAssignments,
+  addAssignment,
+  editAssignment,
+  updateAssignment,
+  deleteAssignment,
+} from "./reducer";
+import * as client from "../../client";
+import { useEffect, useState } from "react";
 
 export default function Assignments() {
   const { id } = useParams();
-  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
 
-  const courseAssignments = assignments.filter(
-    (assignment: any) => assignment.course === id
-  );
+
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(id as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const onRemoveAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(setAssignments(assignments.filter((a: any) => a._id !== assignmentId)));
+  };
+
 
   return (
     <div>
@@ -44,7 +64,7 @@ export default function Assignments() {
           </div>
 
           <ListGroup className="wd-assignments rounded-0">
-            {courseAssignments.map((assignment: any) => (
+            {assignments.map((assignment: any) => (
               <ListGroupItem
                 key={assignment._id}
                 className="wd-assignment d-flex align-items-center justify-content-between px-3 py-2"
@@ -61,10 +81,13 @@ export default function Assignments() {
                     </Link>
                     <br />
                     <span className="text-danger">Multiple Modules</span> |{" "}
-                    <b>Not available until</b> {assignment.available} | <b>Due</b> {assignment.due} | {assignment.points} points
+                    <b>Not available until</b> {assignment.available} |{" "}
+                    <b>Due</b> {assignment.due} | {assignment.points} points
                   </div>
                 </div>
-                <AssignmentControlButtons assignmentId={assignment._id} />
+                <AssignmentControlButtons 
+                assignmentId={assignment._id}
+                deleteAssignment={onRemoveAssignment} />
               </ListGroupItem>
             ))}
           </ListGroup>

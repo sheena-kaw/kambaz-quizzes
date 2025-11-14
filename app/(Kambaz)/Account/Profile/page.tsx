@@ -6,19 +6,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "../reducer";
 import Link from "next/link";
 import { FormControl, Button } from "react-bootstrap";
+import * as client from "../client";
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
+
   const fetchProfile = () => {
     if (!currentUser) return redirect("/Account/Signin");
     setProfile(currentUser);
   };
-  const signout = () => {
+
+  const signout = async () => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     redirect("/Account/Signin");
   };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -104,13 +114,14 @@ export default function Profile() {
           </select>
           <br />
 
-          {/* <Link
-            id="wd-signout-btn"
-            href="Signin"
-            className="btn btn-danger w-100"
+          <Button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
           >
-            Sign out
-          </Link> */}
+            {" "}
+            Update Info{" "}
+          </Button>
+          <br />
 
           <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
             Sign out
