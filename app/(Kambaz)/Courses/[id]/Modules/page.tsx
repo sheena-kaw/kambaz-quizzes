@@ -69,7 +69,6 @@ export default function Modules() {
 
       <ListGroup id="wd-modules" className="rounded-0">
         {modules
-          // .filter((module: any) => module.course === id)
           .map((moduleItem: any) => (
             <ListGroupItem
               key={moduleItem._id}
@@ -84,12 +83,12 @@ export default function Modules() {
                       className="w-50 d-inline-block"
                       onChange={(e) =>
                         dispatch(
-                          updateModule({ ...module, name: e.target.value })
+                          updateModule({ ...moduleItem, name: e.target.value })
                         )
                       }
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          onUpdateModule({ ...module, editing: false });
+                          onUpdateModule({ ...moduleItem, editing: false });
                         }
                       }}
                       defaultValue={moduleItem.name}
