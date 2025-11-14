@@ -15,7 +15,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { addModule, editModule, updateModule, deleteModule, setModules } from "./reducer";
+import { editModule, updateModule, setModules } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import * as client from "../../client";
 
@@ -39,8 +39,8 @@ export default function Modules() {
     if (!id) return;
     const courseId = Array.isArray(id) ? id[0] : id;
     const newModule = { name: moduleName, course: courseId };
-    const module = await client.createModuleForCourse(courseId, newModule);
-    dispatch(setModules([...modules, module]));
+    const moduleItem = await client.createModuleForCourse(courseId, newModule);
+    dispatch(setModules([...modules, moduleItem]));
   };
 
   const onRemoveModule = async (moduleId: string) => {
@@ -48,9 +48,9 @@ export default function Modules() {
     dispatch(setModules(modules.filter((m: any) => m._id !== moduleId)));
   };
 
-  const onUpdateModule = async (module: any) => {
-    await client.updateModule(module);
-    const newModules = modules.map((m: any) => m._id === module._id ? module : m );
+  const onUpdateModule = async (moduleItem: any) => {
+    await client.updateModule(moduleItem);
+    const newModules = modules.map((m: any) => m._id === moduleItem._id ? moduleItem : m );
     dispatch(setModules(newModules));
   };
 
@@ -70,16 +70,16 @@ export default function Modules() {
       <ListGroup id="wd-modules" className="rounded-0">
         {modules
           // .filter((module: any) => module.course === id)
-          .map((module: any) => (
+          .map((moduleItem: any) => (
             <ListGroupItem
-              key={module._id}
+              key={moduleItem._id}
               className="wd-module p-0 mb-5 fs-5 border-gray"
             >
               <div className="wd-title p-3 ps-2 bg-secondary d-flex align-items-center justify-content-between">
                 <div>
                   <BsGripVertical className="me-2 fs-3" />
-                  {!module.editing && module.name}
-                  {module.editing && (
+                  {!moduleItem.editing && moduleItem.name}
+                  {moduleItem.editing && (
                     <FormControl
                       className="w-50 d-inline-block"
                       onChange={(e) =>
@@ -92,20 +92,20 @@ export default function Modules() {
                           onUpdateModule({ ...module, editing: false });
                         }
                       }}
-                      defaultValue={module.name}
+                      defaultValue={moduleItem.name}
                     />
                   )}
                 </div>
                 <ModuleControlButtons
-                  moduleId={module._id}
+                  moduleId={moduleItem._id}
                   deleteModule={(moduleId) => onRemoveModule(moduleId)}
                   editModule={(moduleId) => dispatch(editModule(moduleId))}
                 />
               </div>
 
-              {module.lessons && module.lessons.length > 0 && (
+              {moduleItem.lessons && moduleItem.lessons.length > 0 && (
                 <ListGroup className="wd-lessons rounded-0">
-                  {module.lessons.map(
+                  {moduleItem.lessons.map(
                     (lesson: {
                       _id: Key | null | undefined;
                       name:
