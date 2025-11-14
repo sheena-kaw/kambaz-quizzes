@@ -315,13 +315,13 @@ export default function Dashboard() {
     description: "New Description",
   });
 
-  if (!currentUser) {
-    return (
-      <div className="text-center mt-5">
-        <h3>Loading dashboard...</h3>
-      </div>
-    );
-  }
+  // if (!currentUser) {
+  //   return (
+  //     <div className="text-center mt-5">
+  //       <h3>Loading dashboard...</h3>
+  //     </div>
+  //   );
+  // }
 
   const fetchCourses = async () => {
     try {
@@ -345,6 +345,15 @@ export default function Dashboard() {
     fetchCourses();
     fetchEnrollments();
   }, [currentUser]);
+
+  if (!currentUser) {
+    return (
+      <div className="text-center mt-5">
+        <h3>Loading dashboard...</h3>
+      </div>
+    );
+  }
+
 
   const isFaculty = currentUser?.role === "FACULTY";
 
