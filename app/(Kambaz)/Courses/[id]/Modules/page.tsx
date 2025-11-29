@@ -44,12 +44,16 @@ export default function Modules() {
   };
 
   const onRemoveModule = async (moduleId: string) => {
-    await client.deleteModule(moduleId);
+    if (!id) return;
+    const courseId = Array.isArray(id) ? id[0] : id;
+    await client.deleteModule(courseId, moduleId);
     dispatch(setModules(modules.filter((m: any) => m._id !== moduleId)));
   };
 
   const onUpdateModule = async (moduleItem: any) => {
-    await client.updateModule(moduleItem);
+    if (!id) return;
+    const courseId = Array.isArray(id) ? id[0] : id;
+    await client.updateModule(courseId, moduleItem);
     const newModules = modules.map((m: any) => m._id === moduleItem._id ? moduleItem : m );
     dispatch(setModules(newModules));
   };

@@ -55,7 +55,9 @@ export default function AssignmentEditor() {
     };
 
     if (existing) {
-      const updatedAssignment = await client.updateAssignment({
+      const updatedAssignment = await client.updateAssignment(
+        id as string,
+        {
         ...existing,
         ...assignmentInfo,
       });

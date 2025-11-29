@@ -67,7 +67,6 @@ export default function Dashboard() {
     );
   }
 
-
   const isFaculty = currentUser?.role === "FACULTY";
 
   const toggleEnrollmentsView = async () => {
@@ -80,10 +79,11 @@ export default function Dashboard() {
     setShowAllCourses(!showAllCourses);
   };
 
+  // const isUserEnrolled = (courseId: string) =>
+  //   enrollments.some((course: any) => String(course._id) === String(courseId));
+
   const isUserEnrolled = (courseId: string) =>
-    enrollments.some(
-      (enr: any) => enr.user === currentUser._id && enr.course === courseId
-    );
+  enrollments.some((course: any) => course && String(course._id) === String(courseId));
 
   const visibleCourses = showAllCourses
     ? courses
@@ -96,7 +96,11 @@ export default function Dashboard() {
 
   const onDeleteCourse = async (courseId: string) => {
     await client.deleteCourse(courseId);
-    dispatch(setCourses(courses.filter((course: { _id: string }) => course._id !== courseId)));
+    dispatch(
+      setCourses(
+        courses.filter((course: { _id: string }) => course._id !== courseId)
+      )
+    );
   };
 
   const onUpdateCourse = async () => {
@@ -114,9 +118,22 @@ export default function Dashboard() {
     );
   };
 
-    const handleEnroll = async (courseId: string) => {
+  //   const handleEnroll = async (courseId: string) => {
+  //   try {
+  //     const enrollment = await client.enrollInCourse("current", courseId);
+  //     const updatedEnrollments = await client.findEnrollmentsForUser("current");
+  //     dispatch(setEnrollments(updatedEnrollments));
+
+  //     const allCourses = await client.fetchAllCourses();
+  //     dispatch(setCourses(allCourses));
+  //   } catch (error) {
+  //     console.error("Error enrolling:", error);
+  //   }
+  // };
+
+  const handleEnroll = async (courseId: string) => {
     try {
-      const enrollment = await client.enrollInCourse("current", courseId);
+      await client.enrollInCourse("current", courseId);
       const updatedEnrollments = await client.findEnrollmentsForUser("current");
       dispatch(setEnrollments(updatedEnrollments));
 
@@ -133,7 +150,7 @@ export default function Dashboard() {
       dispatch(
         setEnrollments(
           enrollments.filter(
-            (enr: any) => !(enr.user === currentUser._id && enr.course === courseId)
+            (course: any) => String(course._id) !== String(courseId)
           )
         )
       );

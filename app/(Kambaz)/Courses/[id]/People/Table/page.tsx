@@ -34,10 +34,6 @@ export default function PeopleTable({
   users?: any[];
   fetchUsers: () => void;
 }) {
-  // const { id } = useParams();
-  // const users: User[] = db.users;
-  // const enrollments: Enrollment[] = db.enrollments;
-
   const [showDetails, setShowDetails] = useState(false);
   const [showUserId, setShowUserId] = useState<string | null>(null);
 
