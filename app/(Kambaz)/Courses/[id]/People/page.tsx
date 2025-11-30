@@ -3,26 +3,23 @@
 import { useEffect, useState } from "react";
 import PeopleTable from "./Table/page";
 import { useParams } from "next/navigation";
+import { fetchUsersForCourse } from "../../client";
 
 export default function People() {
-  const { courseId } = useParams();
+  const { id } = useParams();
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`/api/courses/${courseId}/users`);
-    const data = await res.json();
+    if (!id) {
+      return null;
+    }
+    const data = await fetchUsersForCourse(id as string);
     setUsers(data);
   };
 
   useEffect(() => {
     fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    fetchUsers();
-  }, [courseId]);
-
-  console.log("hello");
+  }, [id]);
 
   return (
     <>

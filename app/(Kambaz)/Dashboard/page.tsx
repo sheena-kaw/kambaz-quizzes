@@ -79,11 +79,8 @@ export default function Dashboard() {
     setShowAllCourses(!showAllCourses);
   };
 
-  // const isUserEnrolled = (courseId: string) =>
-  //   enrollments.some((course: any) => String(course._id) === String(courseId));
-
   const isUserEnrolled = (courseId: string) =>
-  enrollments.some((course: any) => course && String(course._id) === String(courseId));
+  enrollments.some((course: any) => course && course._id === courseId);
 
   const visibleCourses = showAllCourses
     ? courses
@@ -117,19 +114,6 @@ export default function Dashboard() {
       )
     );
   };
-
-  //   const handleEnroll = async (courseId: string) => {
-  //   try {
-  //     const enrollment = await client.enrollInCourse("current", courseId);
-  //     const updatedEnrollments = await client.findEnrollmentsForUser("current");
-  //     dispatch(setEnrollments(updatedEnrollments));
-
-  //     const allCourses = await client.fetchAllCourses();
-  //     dispatch(setCourses(allCourses));
-  //   } catch (error) {
-  //     console.error("Error enrolling:", error);
-  //   }
-  // };
 
   const handleEnroll = async (courseId: string) => {
     try {

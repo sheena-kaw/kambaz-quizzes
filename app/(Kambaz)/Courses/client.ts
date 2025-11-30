@@ -11,6 +11,13 @@ export const fetchAllCourses = async () => {
   return data;
 };
 
+export const fetchUsersForCourse = async (courseId: string) => {
+  const {data} = await axiosWithCredentials.get(
+    `${COURSES_API}/${courseId}/users`
+  );
+  return data;
+}
+
 export const findMyCourses = async () => {
   const { data } = await axiosWithCredentials.get(
     `${USERS_API}/current/courses`
