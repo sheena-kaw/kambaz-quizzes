@@ -1,0 +1,490 @@
+[
+  {
+    "_id": "RS101",
+    "name": "Rocket Propulsion",
+    "number": "RS4550",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D123",
+    "credits": 4,
+    "description": "This course provides an in-depth study of the fundamentals of rocket propulsion, covering topics such as propulsion theory, engine types, fuel chemistry, and the practical applications of rocket technology. Designed for students with a strong background in physics and engineering, the course includes both theoretical instruction and hands-on laboratory work",
+    "modules": [
+      {
+        "_id": "M101",
+        "name": "Introduction to Rocket Propulsion",
+        "description": "Basic principles of rocket propulsion and rocket engines.",
+        "lessons": [
+          {
+            "_id": "L101",
+            "name": "History of Rocketry",
+            "description": "A brief history of rocketry and space exploration."
+          },
+          {
+            "_id": "L102",
+            "name": "Rocket Propulsion Fundamentals",
+            "description": "Basic principles of rocket propulsion."
+          },
+          {
+            "_id": "L103",
+            "name": "Rocket Engine Types",
+            "description": "Overview of different types of rocket engines."
+          }
+        ]
+      },
+      {
+        "_id": "M102",
+        "name": "Fuel and Combustion",
+        "description": "Understanding rocket fuel, combustion processes, and efficiency.",
+        "lessons": [
+          {
+            "_id": "L201",
+            "name": "Rocket Fuel",
+            "description": "Overview of different types of rocket fuels."
+          },
+          {
+            "_id": "L202",
+            "name": "Combustion Processes",
+            "description": "Understanding combustion processes and efficiency."
+          },
+          {
+            "_id": "L203",
+            "name": "Combustion Instability",
+            "description": "Understanding combustion instability and mitigation."
+          }
+        ]
+      },
+      {
+        "_id": "M103",
+        "name": "Nozzle Design",
+        "description": "Principles of rocket nozzle design and performance optimization.",
+        "lessons": [
+          {
+            "_id": "L301",
+            "name": "Nozzle Design",
+            "description": "Overview of different types of rocket nozzles."
+          },
+          {
+            "_id": "L302",
+            "name": "Nozzle Performance",
+            "description": "Understanding nozzle performance and efficiency."
+          },
+          {
+            "_id": "L303",
+            "name": "Nozzle Optimization",
+            "description": "Optimizing nozzle design for specific applications."
+          }
+        ]
+      }
+    ],
+    "assignments": [
+      {
+        "_id": "A101",
+        "title": "Propulsion Assignment",
+        "course": "RS101",
+        "description": "To be added later",
+        "available": "May 1 at 12:00am",
+        "due": "May 7 at 11:59pm",
+        "avail_from_num": "2026-05-01",
+        "due_num": "2026-05-07",
+        "avail_to_num": "2026-05-14",
+        "points": "100"
+      },
+      {
+        "_id": "A102",
+        "title": "Combustion Analysis",
+        "course": "RS101",
+        "description": "To be added later",
+        "available": "May 7 at 12:00am",
+        "due": "May 14 at 11:59pm",
+        "avail_from_num": "2026-05-07",
+        "due_num": "2026-05-14",
+        "avail_to_num": "2026-05-21",
+        "points": "100"
+      },
+      {
+        "_id": "A103",
+        "title": "Nozzle Design Project",
+        "course": "RS101",
+        "description": "To be added later",
+        "available": "May 14 at 12:00am",
+        "due": "May 21 at 11:59pm",
+        "avail_from_num": "2026-05-14",
+        "due_num": "2026-05-21",
+        "avail_to_num": "2026-05-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS102",
+    "name": "Aerodynamics",
+    "number": "RS4560",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D123",
+    "credits": 3,
+    "description": "This course offers a comprehensive exploration of aerodynamics, focusing on the principles and applications of airflow and its effects on flying objects. Topics include fluid dynamics, airfoil design, lift and drag forces, and the aerodynamic considerations in aircraft design. The course blends theoretical learning with practical applications, suitable for students pursuing a career in aeronautics or astronautics engineering.",
+    "modules": [
+      {
+        "_id": "M201",
+        "name": "Fundamentals of Aerodynamics",
+        "description": "Basic aerodynamic concepts and fluid dynamics principles."
+      },
+      {
+        "_id": "M202",
+        "name": "Subsonic and Supersonic Flow",
+        "description": "Understanding subsonic and supersonic aerodynamic behaviors."
+      },
+      {
+        "_id": "M203",
+        "name": "Aerodynamic Heating",
+        "description": "Study of aerodynamic heating and thermal protection systems."
+      }
+    ],
+    "assignments": [
+      {
+        "_id": "A201",
+        "title": "Aerodynamics Quiz",
+        "course": "RS102",
+        "description": "To be added later",
+        "available": "April 1 at 12:00am",
+        "due": "April 7 at 11:59pm",
+        "avail_from_num": "2026-04-01",
+        "due_num": "2026-04-07",
+        "avail_to_num": "2026-04-14",
+        "points": "100"
+      },
+      {
+        "_id": "A202",
+        "title": "Flow Analysis",
+        "course": "RS102",
+        "description": "To be added later",
+        "available": "April 7 at 12:00am",
+        "due": "April 14 at 11:59pm",
+        "avail_from_num": "2026-04-07",
+        "due_num": "2026-04-14",
+        "avail_to_num": "2026-04-21",
+        "points": "100"
+      },
+      {
+        "_id": "A203",
+        "title": "Heating Analysis",
+        "course": "RS102",
+        "description": "To be added later",
+        "available": "April 14 at 12:00am",
+        "due": "April 21 at 11:59pm",
+        "avail_from_num": "2026-04-14",
+        "due_num": "2026-04-21",
+        "avail_to_num": "2026-04-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS103",
+    "name": "Spacecraft Design",
+    "number": "RS4570",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D123",
+    "credits": 4,
+    "description": "This course delves into the principles and practices of spacecraft design, offering students a detailed understanding of the engineering and technology behind spacecraft systems. Key topics include spacecraft structure, propulsion, power systems, thermal control, and payload integration. Emphasizing both theoretical concepts and practical skills, the course prepares students for careers in the space industry, with a focus on innovative design and problem-solving in the context of current and future space missions",
+    "modules": [
+      {
+        "_id": "M301",
+        "name": "Spacecraft Structural Design",
+        "description": "Fundamentals of designing spacecraft structures and materials selection."
+      },
+      {
+        "_id": "M302",
+        "name": "Orbital Mechanics",
+        "description": "Understanding orbital dynamics and mission planning."
+      },
+      {
+        "_id": "M303",
+        "name": "Spacecraft Systems Engineering",
+        "description": "Overview of spacecraft systems and subsystems engineering."
+      }
+    ],
+    "assignments": [
+      {
+        "_id": "A301",
+        "title": "Structural Design Task",
+        "course": "RS103",
+        "description": "To be added later",
+        "available": "June 1 at 12:00am",
+        "due": "June 7 at 11:59pm",
+        "avail_from_num": "2026-06-01",
+        "due_num": "2026-06-07",
+        "avail_to_num": "2026-06-14",
+        "points": "100"
+      },
+      {
+        "_id": "A302",
+        "title": "Orbital Calculations",
+        "course": "RS103",
+        "description": "To be added later",
+        "available": "June 7 at 12:00am",
+        "due": "June 14 at 11:59pm",
+        "avail_from_num": "2026-06-07",
+        "due_num": "2026-06-14",
+        "avail_to_num": "2026-04-21",
+        "points": "100"
+      },
+      {
+        "_id": "A303",
+        "title": "Systems Engineering Exam",
+        "course": "RS103",
+        "description": "To be added later",
+        "available": "June 14 at 12:00am",
+        "due": "June 21 at 11:59pm",
+        "avail_from_num": "2026-06-14",
+        "due_num": "2026-06-21",
+        "avail_to_num": "2026-04-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS104",
+    "name": "Organic Chemistry",
+    "number": "CH1230",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D134",
+    "credits": 3,
+    "description": "Organic Chemistry is an in-depth course that explores the structure, properties, composition, and reactions of organic compounds and materials. The course covers various topics including hydrocarbons, functional groups, stereochemistry, and organic synthesis techniques. Students will learn about the mechanisms of organic reactions, spectroscopic methods for structure determination, and the role of organic chemistry in biological systems. Emphasis is placed on problem-solving and laboratory skills, preparing students for advanced studies in chemistry, medicine, and related fields.",
+    "assignments": [
+      {
+        "_id": "A401",
+        "title": "Functional Groups Identification",
+        "course": "RS104",
+        "description": "To be added later",
+        "available": "July 1 at 12:00am",
+        "due": "July 7 at 11:59pm",
+        "avail_from_num": "2026-07-01",
+        "due_num": "2026-07-07",
+        "avail_to_num": "2026-07-14",
+        "points": "100"
+      },
+      {
+        "_id": "A402",
+        "title": "Reaction Mechanisms Practice",
+        "course": "RS104",
+        "description": "To be added later",
+        "available": "July 7 at 12:00am",
+        "due": "July 14 at 11:59pm",
+        "avail_from_num": "2026-07-07",
+        "due_num": "2026-07-14",
+        "avail_to_num": "2026-07-21",
+        "points": "100"
+      },
+      {
+        "_id": "A403",
+        "title": "Spectroscopy Analysis Lab",
+        "course": "RS104",
+        "description": "To be added later",
+        "available": "July 14 at 12:00am",
+        "due": "July 21 at 11:59pm",
+        "avail_from_num": "2026-07-14",
+        "due_num": "2026-07-21",
+        "avail_to_num": "2026-07-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS105",
+    "name": "Inorganic Chemistry",
+    "number": "CH1240",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D134",
+    "credits": 3,
+    "description": "Inorganic Chemistry focuses on the properties, structures, and behaviors of inorganic and organometallic compounds. This course covers a range of topics including coordination chemistry, metal complexes, bonding theories, symmetry, and crystal field theory. Students will also explore the role of inorganic chemistry in real-world applications such as catalysis, materials science, and bioinorganic processes. Laboratory work emphasizes synthesis and analysis of inorganic compounds, fostering a deeper understanding of theoretical concepts.",
+    "assignments": [
+      {
+        "_id": "A501",
+        "title": "Coordination Complex Report",
+        "course": "RS105",
+        "description": "To be added later",
+        "available": "March 1 at 12:00am",
+        "due": "March 7 at 11:59pm",
+        "avail_from_num": "2026-03-01",
+        "due_num": "2026-03-07",
+        "avail_to_num": "2026-03-14",
+        "points": "100"
+      },
+      {
+        "_id": "A502",
+        "title": "Transition Metal Reactivity",
+        "course": "RS105",
+        "description": "To be added later",
+        "available": "March 7 at 12:00am",
+        "due": "March 14 at 11:59pm",
+        "avail_from_num": "2026-03-07",
+        "due_num": "2026-03-14",
+        "avail_to_num": "2026-03-21",
+        "points": "100"
+      },
+      {
+        "_id": "A503",
+        "title": "Crystal Field Theory Worksheet",
+        "course": "RS105",
+        "description": "To be added later",
+        "available": "March 14 at 12:00am",
+        "due": "March 21 at 11:59pm",
+        "avail_from_num": "2026-03-14",
+        "due_num": "2026-03-21",
+        "avail_to_num": "2026-03-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS106",
+    "name": "Physical Chemistry",
+    "number": "CH1250",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "D134",
+    "credits": 3,
+    "description": "Physical Chemistry merges the principles of physics and chemistry to understand the physical properties of molecules, the forces that act upon them, and the chemical reactions they undergo. Key topics include thermodynamics, kinetics, quantum mechanics, and spectroscopy. The course provides a comprehensive understanding of molecular behavior, reaction dynamics, and the application of mathematical methods in solving chemical problems. Labs focus on experimental techniques and data analysis, equipping students with skills necessary for research and advanced study in chemistry and related fields.",
+    "assignments": [
+      {
+        "_id": "A601",
+        "title": "Thermodynamics Problem Set",
+        "course": "RS106",
+        "description": "To be added later",
+        "available": "November 1 at 12:00am",
+        "due": "November 7 at 11:59pm",
+        "avail_from_num": "2026-11-01",
+        "due_num": "2026-11-07",
+        "avail_to_num": "2026-11-14",
+        "points": "100"
+      },
+      {
+        "_id": "A602",
+        "title": "Quantum Chemistry Exercises",
+        "course": "RS106",
+        "description": "To be added later",
+        "available": "November 7 at 12:00am",
+        "due": "November 14 at 11:59pm",
+        "avail_from_num": "2026-11-07",
+        "due_num": "2026-11-14",
+        "avail_to_num": "2026-11-21",
+        "points": "100"
+      },
+      {
+        "_id": "A603",
+        "title": "Chemical Kinetics Lab",
+        "course": "RS106",
+        "description": "To be added later",
+        "available": "November 14 at 12:00am",
+        "due": "November 21 at 11:59pm",
+        "avail_from_num": "2026-11-14",
+        "due_num": "2026-11-21",
+        "avail_to_num": "2026-11-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS107",
+    "name": "Ancient Languages and Scripts of Middle-earth",
+    "number": "ME101",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "Languages",
+    "credits": 3,
+    "description": "This course offers an exploration of the ancient languages and scripts found throughout Middle-earth, including Elvish (Sindarin and Quenya), Dwarvish (Khuzdul), and the Black Speech of Mordor. Students will learn the historical and cultural contexts of these languages, their linguistic structures, and their usage in various inscriptions and texts. Emphasis is on understanding the philological aspects and the role of language in shaping Middle-earth's history and lore.",
+    "author": "654f9ec2ea7ead465908d1e3",
+    "assignments": [
+      {
+        "_id": "A701",
+        "title": "Latin Translation Exercise",
+        "course": "RS107",
+        "description": "To be added later",
+        "available": "February 1 at 12:00am",
+        "due": "February 7 at 11:59pm",
+        "avail_from_num": "2026-02-01",
+        "due_num": "2026-02-07",
+        "avail_to_num": "2026-02-14",
+        "points": "100"
+      },
+      {
+        "_id": "A702",
+        "title": "Greek Myth Text Analysis",
+        "course": "RS107",
+        "description": "To be added later",
+        "available": "February 7 at 12:00am",
+        "due": "February 14 at 11:59pm",
+        "avail_from_num": "2026-02-07",
+        "due_num": "2026-02-14",
+        "avail_to_num": "2026-02-21",
+        "points": "100"
+      },
+      {
+        "_id": "A703",
+        "title": "Ancient Script Deciphering",
+        "course": "RS107",
+        "description": "To be added later",
+        "available": "February 14 at 12:00am",
+        "due": "February 21 at 11:59pm",
+        "avail_from_num": "2026-02-14",
+        "due_num": "2026-02-21",
+        "avail_to_num": "2026-02-28",
+        "points": "100"
+      }
+    ]
+  },
+  {
+    "_id": "RS108",
+    "name": "Wizards, Elves, and Men: Inter-species Diplomacy in Middle-earth",
+    "number": "ME102",
+    "startDate": "2023-01-10",
+    "endDate": "2023-05-15",
+    "department": "Political Studies",
+    "credits": 4,
+    "description": "This course explores the complex relationships and diplomatic interactions among the different races of Middle-earth: Elves, Men, Dwarves, and Wizards. Topics include the study of historical alliances, conflicts, and the role of leadership and wisdom in maintaining peace. Students will engage in discussions and case studies on key events in Middle-earth's history, such as the Council of Elrond and the War of the Ring, to understand the principles of diplomacy and conflict resolution in a multi-species context.",
+    "author": "654f9ec2ea7ead465908d1e3",
+    "assignments": [
+      {
+        "_id": "A801",
+        "title": "Elven-Mortal Treaty Analysis",
+        "course": "RS108",
+        "description": "To be added later",
+        "available": "Spooktober 1 at 12:00am",
+        "due": "Spooktober 7 at 11:59pm",
+        "avail_from_num": "2026-10-01",
+        "due_num": "2026-10-07",
+        "avail_to_num": "2026-10-14",
+        "points": "100"
+      },
+      {
+        "_id": "A802",
+        "title": "Dwarven Trade Negotiation Report",
+        "course": "RS108",
+        "description": "To be added later",
+        "available": "Spooktober 7 at 12:00am",
+        "due": "Spooktober 14 at 11:59pm",
+        "avail_from_num": "2026-10-07",
+        "due_num": "2026-10-14",
+        "avail_to_num": "2026-10-21",
+        "points": "100"
+      },
+      {
+        "_id": "A803",
+        "title": "Middle-Earth Diplomacy Case Study",
+        "course": "RS108",
+        "description": "To be added later",
+        "available": "Spooktober 14 at 12:00am",
+        "due": "Spooktober 21 at 11:59pm",
+        "avail_from_num": "2026-10-14",
+        "due_num": "2026-10-21",
+        "avail_to_num": "2026-10-28",
+        "points": "100"
+      }
+    ]
+  }
+]

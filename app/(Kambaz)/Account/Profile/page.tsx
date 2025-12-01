@@ -1,22 +1,133 @@
+"use client";
+
+import { redirect } from "next/dist/client/components/navigation";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentUser } from "../reducer";
 import Link from "next/link";
+import { FormControl, Button } from "react-bootstrap";
+import * as client from "../client";
+
 export default function Profile() {
+  const [profile, setProfile] = useState<any>({});
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
+
+  const fetchProfile = () => {
+    if (!currentUser) return redirect("/Account/Signin");
+    setProfile(currentUser);
+  };
+
+  const signout = async () => {
+    await client.signout();
+    dispatch(setCurrentUser(null));
+    redirect("/Account/Signin");
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   return (
-    <div id="wd-profile-screen">
-      <br/>
-      <br/>
-      <br/>
-      <h3>Profile</h3>
-      <input defaultValue="alice" placeholder="username" className="wd-username"/><br/>
-      <input defaultValue="123"   placeholder="password" type="password"
-             className="wd-password" /><br/>
-      <input defaultValue="Alice" placeholder="First Name" id="wd-firstname" /><br/>
-      <input defaultValue="Wonderland" placeholder="Last Name" id="wd-lastname" /><br/>
-      <input defaultValue="2000-01-01" type="date" id="wd-dob" /><br/>
-      <input defaultValue="alice@wonderland" type="email" id="wd-email" /><br/>
-      <select defaultValue="FACULTY" id="wd-role">
-        <option value="USER">User</option>       <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option> <option value="STUDENT">Student</option>
-      </select><br/>
-      <Link href="Signin" > Sign out </Link>
+    <div
+      id="wd-profile-screen"
+      className="d-flex flex-column align-items-center mt-5"
+    >
+      <h2>Profile</h2>
+      <br />
+
+      {profile && (
+        <div style={{ width: "350px" }}>
+          <FormControl
+            id="wd-username"
+            placeholder="username"
+            defaultValue={profile.username}
+            onChange={(e) =>
+              setProfile({ ...profile, username: e.target.value })
+            }
+            className="mb-2"
+          />
+
+          <FormControl
+            id="wd-password"
+            placeholder="password"
+            type="password"
+            defaultValue={profile.password}
+            onChange={(e) =>
+              setProfile({ ...profile, password: e.target.value })
+            }
+            className="mb-2"
+          />
+
+          <FormControl
+            id="wd-firstname"
+            placeholder="First Name"
+            defaultValue={profile.firstName}
+            onChange={(e) =>
+              setProfile({ ...profile, firstName: e.target.value })
+            }
+            className="mb-2"
+          />
+
+          <FormControl
+            id="wd-lastname"
+            placeholder="Last Name"
+            defaultValue={profile.lastName}
+            onChange={(e) =>
+              setProfile({ ...profile, lastName: e.target.value })
+            }
+            className="mb-2"
+          />
+
+          <FormControl
+            id="wd-dob"
+            type="date"
+            defaultValue={profile.dob}
+            onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+            className="mb-2"
+          />
+
+          <FormControl
+            id="wd-email"
+            type="email"
+            placeholder="Email"
+            defaultValue={profile.email}
+            onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+            className="mb-2"
+          />
+
+          <select
+            id="wd-role"
+            defaultValue="FACULTY"
+            className="mb-3"
+            onChange={(e) => setProfile({ ...profile, role: e.target.value })}
+          >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="FACULTY">Faculty</option>
+            <option value="STUDENT">Student</option>
+          </select>
+          <br />
+
+          <Button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
+          >
+            {" "}
+            Update Info{" "}
+          </Button>
+          <br />
+
+          <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
+            Sign out
+          </Button>
+        </div>
+      )}
     </div>
-);}
+  );
+}

@@ -16,6 +16,18 @@ export default function Labs() {
          <Link href="/Labs/Lab3" id="wd-lab3-link">
            Lab 3: JavaScript Fundamentals </Link>
        </li>
+       <li>
+         <Link href="/Labs/Lab4" id="wd-lab3-link">
+           Lab 4: States in React </Link>
+       </li>
+       <li>
+         <Link href="/Labs/Lab5" id="wd-lab3-link">
+           Lab 5: REST APIs </Link>
+       </li>
+       <li>
+         <Link href="/Labs/Lab6" id="wd-lab3-link">
+           Lab 6: MongoDB </Link>
+       </li>
      </ul>
      <br/>
      <br/>
