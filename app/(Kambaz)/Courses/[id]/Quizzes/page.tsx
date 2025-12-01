@@ -1,10 +1,3 @@
-// export default function Quizzes() {
-//     return(
-//         <h2> Quizzes </h2>
-//     );
-// }
-
-
 "use client";
 
 import Link from "next/link";
@@ -25,6 +18,9 @@ export default function Quizzes() {
   const { id } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
+
+  const rawId = useParams().id;
+  const courseId = Array.isArray(rawId) ? rawId[0] : rawId ?? "";
 
 
   const fetchQuizzes = async () => {
@@ -89,6 +85,7 @@ export default function Quizzes() {
                   </div>
                 </div>
                 <QuizControlButtons 
+                id={courseId}
                 quizId={quiz._id}
                 deleteQuiz={onRemoveQuiz} />
               </ListGroupItem>

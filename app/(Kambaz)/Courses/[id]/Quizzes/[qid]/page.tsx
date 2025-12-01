@@ -76,6 +76,7 @@ export default function QuizEditor() {
     
     router.push(`/Courses/${id}/Quizzes`);
   };
+  
 
   const handleCancel = () => router.push(`/Courses/${id}/Quizzes`);
 
@@ -87,6 +88,7 @@ export default function QuizEditor() {
           <Form.Control
             type="text"
             value={title}
+            placeholder="New quiz"
             onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>
@@ -96,6 +98,7 @@ export default function QuizEditor() {
             as="textarea"
             rows={3}
             value={description}
+            placeholder="Set a description for the quiz"
             onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
