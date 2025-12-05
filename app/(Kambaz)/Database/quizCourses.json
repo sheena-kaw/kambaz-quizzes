@@ -120,12 +120,21 @@
         "title": "Propulsion Quiz",
         "course": "RS101",
         "description": "To be added later",
-        "available": "May 1 at 12:00am",
-        "due": "May 7 at 11:59pm",
-        "avail_from_num": "2026-05-01",
-        "due_num": "2026-05-07",
-        "avail_to_num": "2026-05-14",
-        "points": "100"
+        "avail_from": "2026-05-01",
+        "due": "2026-05-07",
+        "avail_to": "2026-05-14",
+        "points": "100",
+        "quiz_type": "Graded Quiz",
+        "assignment_group": "Quizzes",
+        "shuffle": true,
+        "time_limit": "20",
+        "attempts": false,
+        "attempts_num": 1,
+        "show_correct": false,
+        "access_code": "access",
+        "one_question": true,
+        "webcam": false,
+        "lock_question": false
       }
     ]
   },
