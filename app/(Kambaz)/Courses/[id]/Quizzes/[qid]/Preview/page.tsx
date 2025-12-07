@@ -1,10 +1,9 @@
 "use client";
-
-export default function QuizPreview() {
-
+import QuizPreview from "../QuizView/QuizPreview";
+export default function QuizPreviewPAge() {
   return (
     <div id="wd-preview">
-        <h3>Quiz Preview Page</h3>
+      <QuizPreview />
     </div>
   );
 }
