@@ -1,21 +1,26 @@
 "use client";
 
 import { IoEllipsisVertical } from "react-icons/io5";
-import { FaTrash } from "react-icons/fa";
+import { CiNoWaitingSign } from "react-icons/ci";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 interface QuizControlButtonsProps {
   id: string,
   quizId: string;
+  published: boolean;
   deleteQuiz: (quizId: string) => void;
+  togglePublish: (quizId: string, newValue: boolean) => void;
 }
 
 export default function QuizControlButtons({
   id,
   quizId,
+  published,
   deleteQuiz,
+  togglePublish,
 }: QuizControlButtonsProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -25,6 +30,11 @@ export default function QuizControlButtons({
       deleteQuiz(quizId);
     }
   };
+
+  const handlePublish = () => {
+    togglePublish(quizId, !published);
+    setOpen(false);
+  }
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -36,16 +46,24 @@ export default function QuizControlButtons({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  const currentUser = useSelector((state: any) => state.accountReducer?.currentUser);
+
+  if (currentUser?.role !== "FACULTY") return null;
+
   return (
     <div className="float-end d-flex align-items-center" ref={menuRef}>
-      <FaTrash
-        className="text-danger me-2 mb-1 ms-2"
-        onClick={handleDelete}
+
+      <span 
+        className="ms-2"
         style={{ cursor: "pointer" }}
-      />
-      <span className="ms-2">
-        <GreenCheckmark />
+        onClick={ handlePublish }>
+        {published ? (
+          <GreenCheckmark />
+        ) : (
+          <CiNoWaitingSign className="text-muted fs-4" />
+        )}
       </span>
+
       <IoEllipsisVertical
         className="fs-4 ms-2"
         style={{ cursor: "pointer" }}
@@ -63,13 +81,18 @@ export default function QuizControlButtons({
             Delete
           </button>
           <Link
-            href={`/Courses/${id}/Quizzes/${quizId}`}
+            href={`/Courses/${id}/Quizzes/${quizId}/Details`}
             className="text-decoration-none text-dark w-100"
           >
             <button className="dropdown-item text-start w-100 text-dark">Edit</button>
           </Link>
-          <button className="dropdown-item text-start w-100">Publish</button>
-          <button className="dropdown-item text-start w-100">Unpublish</button>
+
+          <button
+            className="dropdown-item text-start w-100"
+            onClick={handlePublish}
+          >
+            {published ? "Unpublish" : "Publish"}
+          </button>
         </div>
       )}
     </div>
