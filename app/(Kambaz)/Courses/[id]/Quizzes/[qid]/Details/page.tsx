@@ -10,7 +10,9 @@ export default function QuizDetails() {
   const router = useRouter();
   const { id, qid } = useParams();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state: any) => state.accountReducer?.currentUser);
+  const currentUser = useSelector(
+    (state: any) => state.accountReducer?.currentUser
+  );
 
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
   const quiz = quizzes.find((q: any) => q._id === qid);
@@ -37,13 +39,10 @@ export default function QuizDetails() {
 
           <Button
             variant="success"
-            // onClick={() =>
-            //   router.push(`/Courses/${id}/Quizzes/${qid}/QuizSession`)
-            // }
+            onClick={() => router.push(`/Courses/${id}/Quizzes/${qid}/Preview`)}
           >
-            Start Quiz
+            Enter Quiz
           </Button>
-
         </div>
       </div>
     );
