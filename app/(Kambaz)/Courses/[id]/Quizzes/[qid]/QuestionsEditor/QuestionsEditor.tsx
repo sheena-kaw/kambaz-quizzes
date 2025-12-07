@@ -60,7 +60,9 @@ export default function QuestionsEditor() {
 
     try {
       const createdQuestion = await client.createQuestion(quizId, newQuestion);
-      setQuestionsList([...questionsList, createdQuestion]);
+      // Add wasJustCreated flag to track this is a new unsaved question
+      const questionWithFlag = { ...createdQuestion, wasJustCreated: true };
+      setQuestionsList([...questionsList, questionWithFlag]);
       setEditingId(createdQuestion._id);
     } catch (error) {
       console.error("Error creating question:", error);
@@ -71,7 +73,6 @@ export default function QuestionsEditor() {
     const quizId = Array.isArray(qid) ? qid[0] : qid;
     if (!quizId) {
       console.error("Quiz ID is missing");
-
       return;
     }
     setQuestionsList(questionsList.filter((q: any) => q._id !== questionId));
@@ -98,9 +99,11 @@ export default function QuestionsEditor() {
         questionId,
         updatedQuestion
       );
+      // Remove the wasJustCreated flag since the question has been edited
+      const { wasJustCreated, ...cleanedQuestion } = savedQuestion;
       setQuestionsList(
         questionsList.map((q: any) =>
-          q._id === questionId ? savedQuestion : q
+          q._id === questionId ? cleanedQuestion : q
         )
       );
     } catch (error) {
@@ -108,12 +111,26 @@ export default function QuestionsEditor() {
     }
   };
 
-  const handleSaveQuestions = () => {
-    console.log("saving questions", questionsList);
-  };
+  const handleCancelEdit = async (questionId: string) => {
+    const question = questionsList.find((q) => q._id === questionId);
 
-  const handleCancel = () => {
-    console.log("cancel");
+    // If this is a newly created question, delete it from the database
+    if (question?.wasJustCreated) {
+      const quizId = Array.isArray(qid) ? qid[0] : qid;
+      if (!quizId) {
+        setEditingId(null);
+        return;
+      }
+
+      try {
+        await client.deleteQuestion(quizId, questionId);
+        setQuestionsList(questionsList.filter((q) => q._id !== questionId));
+      } catch (error) {
+        console.error("Error deleting question:", error);
+      }
+    }
+
+    setEditingId(null);
   };
 
   if (loading) {
@@ -194,7 +211,7 @@ export default function QuestionsEditor() {
                       <Col md={10} className="m-3">
                         <MultipleChoiceQuestionEditor
                           question={q}
-                          onCancel={() => setEditingId(null)}
+                          onCancel={() => handleCancelEdit(q._id)}
                           onUpdate={(updatedQuestion) => {
                             updateQuestion(q._id, updatedQuestion);
                             setEditingId(null);
@@ -206,7 +223,7 @@ export default function QuestionsEditor() {
                       <Col md={10} className="m-3">
                         <TrueFalseQuestionEditor
                           question={q}
-                          onCancel={() => setEditingId(null)}
+                          onCancel={() => handleCancelEdit(q._id)}
                           onUpdate={(updatedQuestion) => {
                             updateQuestion(q._id, updatedQuestion);
                             setEditingId(null);
@@ -218,7 +235,7 @@ export default function QuestionsEditor() {
                       <Col md={10} className="m-3">
                         <FillInTheBlankQuestionEditor
                           question={q}
-                          onCancel={() => setEditingId(null)}
+                          onCancel={() => handleCancelEdit(q._id)}
                           onUpdate={(updatedQuestion) => {
                             updateQuestion(q._id, updatedQuestion);
                             setEditingId(null);
@@ -226,14 +243,6 @@ export default function QuestionsEditor() {
                         />
                       </Col>
                     )}
-
-                    <Button
-                      onClick={() => setEditingId(null)}
-                      variant="secondary"
-                      className="w-100"
-                    >
-                      Done
-                    </Button>
                   </div>
                 ) : (
                   <div className="bg-white border border-secondary rounded p-4 d-flex justify-content-between align-items-start gap-3">
@@ -271,24 +280,6 @@ export default function QuestionsEditor() {
             ))}
           </div>
         )}
-      </div>
-
-      {/* Action Buttons */}
-      <div className="d-flex gap-2 pt-3 border-top">
-        <Button
-          onClick={handleCancel}
-          variant="secondary"
-          className="flex-grow-1"
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleSaveQuestions}
-          variant="danger"
-          className="flex-grow-1"
-        >
-          Save
-        </Button>
       </div>
     </Container>
   );
