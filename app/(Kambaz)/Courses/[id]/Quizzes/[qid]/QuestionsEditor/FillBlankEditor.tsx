@@ -108,7 +108,7 @@ export default function FillInTheBlankQuestionEditor({
           placeholder="Enter your question here. Use _____ to indicate where the blank should be."
         />
         <Form.Text className="text-muted mt-2 d-block">
-          Tip: Use _____ in your question to show where the blank should be.
+          Use _____ in your question to show where the blank should be.
         </Form.Text>
       </Form.Group>
 
