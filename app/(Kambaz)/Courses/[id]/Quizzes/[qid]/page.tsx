@@ -51,29 +51,6 @@ export default function QuizEditorPage() {
   const [published, setPublish] = useState(false);
   const [assignedTo, setAssign] = useState("Everyone");
 
-  // Check if user can access this page
-  if (!canSeePreview(userRole) && !canEditQuiz(userRole)) {
-    return (
-      <Container className="p-3">
-        <Alert variant="danger">
-          You do not have permission to access this quiz.
-        </Alert>
-      </Container>
-    );
-  }
-
-  // Set default tab based on role
-  if (activeTab === "details" && !isFaculty) {
-    setActiveTab("preview");
-  }
-
-  const toInputDate = (d: string) => {
-    const date = new Date(d);
-    return date.toISOString().split("T")[0];
-  };
-
-  const formatDate = (d: string) => new Date(d).toLocaleDateString();
-
   // Load quiz data on mount
   useEffect(() => {
     const loadQuizData = async () => {
@@ -107,6 +84,29 @@ export default function QuizEditorPage() {
 
     loadQuizData();
   }, [qid, id]);
+
+  // Check if user can access this page
+  if (!canSeePreview(userRole) && !canEditQuiz(userRole)) {
+    return (
+      <Container className="p-3">
+        <Alert variant="danger">
+          You do not have permission to access this quiz.
+        </Alert>
+      </Container>
+    );
+  }
+
+  // Set default tab based on role
+  if (activeTab === "details" && !isFaculty) {
+    setActiveTab("preview");
+  }
+
+  const toInputDate = (d: string) => {
+    const date = new Date(d);
+    return date.toISOString().split("T")[0];
+  };
+
+  const formatDate = (d: string) => new Date(d).toLocaleDateString();
 
   const populateQuiz = (quiz: any) => {
     setTitle(quiz.title || "");
