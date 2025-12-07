@@ -1,13 +1,8 @@
 "use client";
 import { useState } from "react";
-import {
-  Container,
-  Card,
-  Form,
-  Button,
-  ListGroup,
-  ListGroupItem,
-} from "react-bootstrap";
+import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import QuestionNavigator from "./QuizNavigator";
 
 interface QuizTakerProps {
   quiz: any;
@@ -23,6 +18,9 @@ export default function QuizTaker({
   onCancel,
 }: QuizTakerProps) {
   const [answers, setAnswers] = useState<any>({});
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const currentQuestion = questions[currentQuestionIndex];
 
   const handleMultipleChoiceChange = (questionId: string, choiceId: string) => {
     setAnswers({
@@ -45,115 +43,187 @@ export default function QuizTaker({
     });
   };
 
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handleSelectQuestion = (index: number) => {
+    setCurrentQuestionIndex(index);
+  };
+
   const handleSubmit = () => {
     onSubmit(answers);
   };
 
+  if (questions.length === 0) {
+    return (
+      <Container className="p-0">
+        <p className="text-muted text-center py-5">No questions in this quiz</p>
+      </Container>
+    );
+  }
+
   return (
     <Container className="p-0">
-      {/* Quiz Title */}
-      <Card className="mb-4 border-0 shadow-sm">
-        <Card.Body>
-          <h2 className="fw-bold mb-2">{quiz.title}</h2>
-          <p className="text-muted mb-0">Points: {quiz.points}</p>
-        </Card.Body>
-      </Card>
+      <Row className="g-3">
+        {/* Question Navigator Sidebar */}
+        <Col md={3}>
+          <QuestionNavigator
+            questions={questions}
+            currentQuestionIndex={currentQuestionIndex}
+            onSelectQuestion={handleSelectQuestion}
+            answers={answers}
+            userRole="STUDENT"
+          />
+        </Col>
 
-      {/* Questions */}
-      <div className="mb-4">
-        {questions.length === 0 ? (
-          <p className="text-muted text-center py-5">
-            No questions in this quiz
-          </p>
-        ) : (
-          questions.map((question, idx) => (
-            <Card key={question._id} className="mb-4 border-0 shadow-sm">
-              <Card.Body>
-                <h5 className="fw-bold mb-3">
-                  Question {idx + 1} ({question.points} points)
-                </h5>
-                <p className="mb-4">{question.questionText}</p>
+        {/* Main Quiz Content */}
+        <Col md={9}>
+          {/* Quiz Header */}
+          <Card className="mb-4 border-0 shadow-sm">
+            <Card.Body>
+              <h2 className="fw-bold mb-2">{quiz.title}</h2>
+              <p className="text-muted mb-0">
+                Question {currentQuestionIndex + 1} of {questions.length} |
+                Total Points: {quiz.points}
+              </p>
+            </Card.Body>
+          </Card>
 
-                {/* Multiple Choice */}
-                {question.questionType === "MULTIPLE_CHOICE" && (
-                  <div>
-                    <p className="fw-semibold mb-2">Choose one:</p>
-                    {question.choices?.map((choice: any) => (
-                      <Form.Check
-                        key={choice._id}
-                        type="radio"
-                        id={`${question._id}-${choice._id}`}
-                        name={question._id}
-                        label={choice.text}
-                        value={choice._id}
-                        checked={answers[question._id] === choice._id}
-                        onChange={() =>
-                          handleMultipleChoiceChange(question._id, choice._id)
-                        }
-                        className="mb-2"
-                      />
-                    ))}
-                  </div>
-                )}
+          {/* Current Question */}
+          <Card className="mb-4 border-0 shadow-sm">
+            <Card.Body>
+              <h5 className="fw-bold mb-3">
+                Question {currentQuestionIndex + 1} ({currentQuestion.points}{" "}
+                points)
+              </h5>
+              <p className="mb-4">{currentQuestion.questionText}</p>
 
-                {/* True/False */}
-                {question.questionType === "TRUE_FALSE" && (
-                  <div>
-                    <p className="fw-semibold mb-2">Select your answer:</p>
+
+              {currentQuestion.questionType === "MULTIPLE_CHOICE" && (
+                <div>
+                  <p className="fw-semibold mb-2">Choose one:</p>
+                  {currentQuestion.choices?.map((choice: any) => (
                     <Form.Check
+                      key={choice._id}
                       type="radio"
-                      id={`${question._id}-true`}
-                      name={question._id}
-                      label="True"
-                      value="true"
-                      checked={answers[question._id] === true}
-                      onChange={() => handleTrueFalseChange(question._id, true)}
-                      className="mb-2"
-                    />
-                    <Form.Check
-                      type="radio"
-                      id={`${question._id}-false`}
-                      name={question._id}
-                      label="False"
-                      value="false"
-                      checked={answers[question._id] === false}
+                      id={`${currentQuestion._id}-${choice._id}`}
+                      name={currentQuestion._id}
+                      label={choice.text}
+                      value={choice._id}
+                      checked={answers[currentQuestion._id] === choice._id}
                       onChange={() =>
-                        handleTrueFalseChange(question._id, false)
+                        handleMultipleChoiceChange(
+                          currentQuestion._id,
+                          choice._id
+                        )
                       }
                       className="mb-2"
                     />
-                  </div>
-                )}
+                  ))}
+                </div>
+              )}
 
-                {/* Fill in the Blank */}
-                {question.questionType === "FILL_IN_THE_BLANK" && (
-                  <div>
-                    <p className="fw-semibold mb-2">Fill in the blank:</p>
-                    <Form.Control
-                      type="text"
-                      placeholder="Type your answer here"
-                      value={answers[question._id] || ""}
-                      onChange={(e) =>
-                        handleFillInTheBlankChange(question._id, e.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          ))
-        )}
-      </div>
 
-      {/* Action Buttons */}
-      <div className="d-flex gap-2 mb-4">
-        <Button onClick={onCancel} variant="secondary" className="flex-grow-1">
-          Cancel
-        </Button>
-        <Button onClick={handleSubmit} variant="danger" className="flex-grow-1">
-          Submit Quiz
-        </Button>
-      </div>
+              {currentQuestion.questionType === "TRUE_FALSE" && (
+                <div>
+                  <p className="fw-semibold mb-2">Select your answer:</p>
+                  <Form.Check
+                    type="radio"
+                    id={`${currentQuestion._id}-true`}
+                    name={currentQuestion._id}
+                    label="True"
+                    value="true"
+                    checked={answers[currentQuestion._id] === true}
+                    onChange={() =>
+                      handleTrueFalseChange(currentQuestion._id, true)
+                    }
+                    className="mb-2"
+                  />
+                  <Form.Check
+                    type="radio"
+                    id={`${currentQuestion._id}-false`}
+                    name={currentQuestion._id}
+                    label="False"
+                    value="false"
+                    checked={answers[currentQuestion._id] === false}
+                    onChange={() =>
+                      handleTrueFalseChange(currentQuestion._id, false)
+                    }
+                    className="mb-2"
+                  />
+                </div>
+              )}
+
+              {/* Fill in the Blank */}
+              {currentQuestion.questionType === "FILL_IN_THE_BLANK" && (
+                <div>
+                  <p className="fw-semibold mb-2">Fill in the blank:</p>
+                  <Form.Control
+                    type="text"
+                    placeholder="Type your answer here"
+                    value={answers[currentQuestion._id] || ""}
+                    onChange={(e) =>
+                      handleFillInTheBlankChange(
+                        currentQuestion._id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+
+          {/* Navigation Controls */}
+          <div className="d-flex gap-2 mb-4">
+            <Button
+              onClick={handlePreviousQuestion}
+              variant="outline-secondary"
+              disabled={currentQuestionIndex === 0}
+            >
+              <FaChevronLeft className="me-2" />
+              Previous
+            </Button>
+
+            <Button
+              onClick={handleNextQuestion}
+              variant="outline-secondary"
+              disabled={currentQuestionIndex === questions.length - 1}
+              className="flex-grow-1"
+            >
+              Next
+              <FaChevronRight className="ms-2" />
+            </Button>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="d-flex gap-2 mb-4">
+            <Button
+              onClick={onCancel}
+              variant="secondary"
+              className="flex-grow-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              variant="danger"
+              className="flex-grow-1"
+            >
+              Submit Quiz
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 }

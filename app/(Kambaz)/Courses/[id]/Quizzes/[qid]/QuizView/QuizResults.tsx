@@ -99,22 +99,6 @@ export default function QuizResults({
               <div className="display-4 fw-bold mb-2">
                 {scoringResult.percentage}%
               </div>
-              <Badge
-                bg={
-                  scoringResult.percentage >= 70
-                    ? "success"
-                    : scoringResult.percentage >= 50
-                      ? "warning"
-                      : "danger"
-                }
-                className="fs-6"
-              >
-                {scoringResult.percentage >= 70
-                  ? "Passed"
-                  : scoringResult.percentage >= 50
-                    ? "Below Average"
-                    : "Failed"}
-              </Badge>
             </Col>
           </Row>
         </Card.Body>
