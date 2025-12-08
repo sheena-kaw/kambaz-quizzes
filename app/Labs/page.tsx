@@ -33,7 +33,7 @@ export default function Labs() {
      <br/>
      <br/>
      <br/>
-     <h4>Owner: Amani Scarborough</h4>
+     <h4>Owners: Amani Scarborough & Sheena Kaw</h4>
      <p>Section: CS4550.11597.202610</p>
    </div>
 );}
