@@ -109,17 +109,10 @@ export default function QuizPreview() {
   };
 
   const handleSubmitQuiz = async (studentAnswers: any) => {
-    console.log("handleSubmitQuiz STARTED");
     try {
       setSubmitting(true);
       const quizId = Array.isArray(qid) ? qid[0] : qid;
       const courseId = Array.isArray(id) ? id[0] : id;
-
-      console.log("=== QUIZ SUBMISSION DEBUG ===");
-      console.log("isStudent:", isStudent);
-      console.log("currentUser?.id:", currentUser?.id);
-      console.log("quizId:", quizId);
-      console.log("courseId:", courseId);
 
       const result = calculateQuizScore(quiz.questions || [], studentAnswers);
       console.log("Calculated result:", result);
@@ -144,7 +137,7 @@ export default function QuizPreview() {
             currentAttempt,
             result.results
           );
-          console.log("✓ Submission successful!");
+
           setAttemptCount((prev) => prev + 1);
         } catch (error) {
           console.error("✗ Error in submitQuiz call:", error);

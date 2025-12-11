@@ -491,7 +491,7 @@ export default function QuizEditorPage() {
         {activeTab === "questions" && isFaculty && <QuestionsEditor />}
 
         {/* Preview Tab */}
-        {activeTab === "preview" && <QuizPreview userRole={userRole} />}
+        {activeTab === "preview" && <QuizPreview />}
 
         {/* Unauthorized Access Messages */}
         {activeTab === "details" && !isFaculty && (
