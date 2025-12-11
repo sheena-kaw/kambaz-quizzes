@@ -182,28 +182,6 @@ export default function QuizResults({
         <Button onClick={onExit} variant="secondary" className="flex-grow-1">
           Exit Quiz
         </Button>
-
-        {/* Show Retake button only if attempts remain */}
-        {hasAttemptsRemaining ? (
-          <Button
-            onClick={onRetakeQuiz}
-            variant="danger"
-            className="flex-grow-1"
-          >
-            Retake Quiz
-          </Button>
-        ) : (
-          isStudent && (
-            <Button
-              disabled
-              variant="danger"
-              className="flex-grow-1"
-              title="No attempts remaining"
-            >
-              No More Attempts
-            </Button>
-          )
-        )}
       </div>
     </Container>
   );

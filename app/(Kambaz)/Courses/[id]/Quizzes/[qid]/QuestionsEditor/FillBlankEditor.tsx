@@ -12,6 +12,7 @@ interface FillInTheBlankQuestion {
     _id: string;
     text: string;
     caseInsensitive: boolean;
+    isCorrect: boolean; 
   }>;
 }
 
@@ -56,11 +57,23 @@ export default function FillInTheBlankQuestionEditor({
     });
   };
 
+  const handleCorrectAnswerChange = (answerId: string) => {
+    setFormData({
+      ...formData,
+      possibleAnswers: formData.possibleAnswers.map((answer) =>
+        answer._id === answerId
+          ? { ...answer, isCorrect: !answer.isCorrect }
+          : answer
+      ),
+    });
+  };
+
   const handleAddAnswer = () => {
     const newAnswer = {
       _id: Date.now().toString(),
       text: "",
       caseInsensitive: true,
+      isCorrect: false, 
     };
     setFormData({
       ...formData,
@@ -136,6 +149,14 @@ export default function FillInTheBlankQuestionEditor({
                   label="Case insensitive"
                   checked={answer.caseInsensitive}
                   onChange={() => handleCaseInsensitiveChange(answer._id)}
+                  className="mb-2"
+                />
+                {/* ADDED: Mark as correct answer */}
+                <Form.Check
+                  type="checkbox"
+                  label="Mark as correct answer"
+                  checked={answer.isCorrect}
+                  onChange={() => handleCorrectAnswerChange(answer._id)}
                 />
               </div>
               <Button

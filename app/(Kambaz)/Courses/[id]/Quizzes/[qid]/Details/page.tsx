@@ -1,8 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "react-bootstrap";
+import { Button, Spinner, Container } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { setQuizzes } from "../../reducer";
 import * as client from "../../../../client";
 
@@ -16,6 +17,49 @@ export default function QuizDetails() {
 
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
   const quiz = quizzes.find((q: any) => q._id === qid);
+  const [checkingSubmissions, setCheckingSubmissions] = useState(true);
+  useEffect(() => {
+    const checkForSubmissions = async () => {
+      if (currentUser?.role === "FACULTY") {
+        setCheckingSubmissions(false);
+        return;
+      }
+
+      if (!currentUser?._id || !qid) {
+        setCheckingSubmissions(false);
+        return;
+      }
+
+      try {
+        const submissions = await client.getStudentSubmissionsForQuiz(
+          qid as string,
+          currentUser._id
+        );
+
+        if (submissions && submissions.length > 0) {
+          router.push(`/Courses/${id}/Quizzes/${qid}/AttemptHistory`);
+          return;
+        }
+
+        setCheckingSubmissions(false);
+      } catch (error) {
+        console.error("Error checking submissions:", error);
+        setCheckingSubmissions(false);
+      }
+    };
+
+    checkForSubmissions();
+  }, [currentUser?._id, qid, id, router, currentUser?.role]);
+  if (checkingSubmissions && currentUser?.role !== "FACULTY") {
+    return (
+      <Container className="text-center py-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p className="mt-3">Loading your quiz information...</p>
+      </Container>
+    );
+  }
 
   if (!quiz) {
     return <h2 className="text-center mt-5">Quiz not found</h2>;

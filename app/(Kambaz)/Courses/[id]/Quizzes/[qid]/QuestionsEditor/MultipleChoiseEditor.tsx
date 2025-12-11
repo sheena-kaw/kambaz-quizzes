@@ -86,7 +86,7 @@ export default function MultipleChoiceQuestionEditor({
   return (
     <div className="bg-light border border-secondary rounded p-4">
       <h5 className="fw-semibold mb-4">Edit Multiple Choice Question</h5>
-      {/* Question Text */}
+     
       <Form.Group className="mb-4">
         <Form.Label className="fw-semibold">Question</Form.Label>
         <Form.Control
@@ -98,7 +98,7 @@ export default function MultipleChoiceQuestionEditor({
         />
       </Form.Group>
 
-      {/* Choices */}
+    
       <Form.Group className="mb-4">
         <Form.Label className="fw-semibold mb-3">Answers</Form.Label>
         <ListGroup>
@@ -136,7 +136,7 @@ export default function MultipleChoiceQuestionEditor({
           ))}
         </ListGroup>
 
-        {/* Add Another Choice */}
+       
         <Button
           variant="link"
           className="text-danger p-0 mt-3"
@@ -147,7 +147,7 @@ export default function MultipleChoiceQuestionEditor({
         </Button>
       </Form.Group>
 
-      {/* Action Buttons */}
+    
       <div className="d-flex gap-2">
         <Button variant="secondary" onClick={onCancel}>
           Cancel

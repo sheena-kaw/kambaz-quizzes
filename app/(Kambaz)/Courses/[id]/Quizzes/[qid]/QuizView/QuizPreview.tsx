@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   Container,
   Card,
@@ -16,11 +18,7 @@ import QuizTaker from "./QuizTaker";
 import QuizResults from "./QuizResults";
 import calculateQuizScore from "../utils/quizScoring";
 
-interface QuizPreviewProps {
-  userRole?: string;
-}
-
-export default function QuizPreview({ userRole }: QuizPreviewProps) {
+export default function QuizPreview() {
   const { id, qid } = useParams();
   const currentUser = useSelector(
     (state: any) => state.accountReducer?.currentUser
@@ -36,7 +34,9 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
   const [totalAttempts, setTotalAttempts] = useState(1);
   const [attemptCount, setAttemptCount] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
 
+  const userRole = currentUser?.role;
   const isStudent = userRole === "STUDENT";
   const isFaculty = userRole === "FACULTY";
 
@@ -55,12 +55,12 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
         const quizData = await client.getQuizWithQuestions(quizId);
         setQuiz(quizData);
 
-        // For students: Get attempt count and load previous attempt if exists
         if (isStudent && currentUser?.id) {
+          console.log("=== CONDITIONS PASSED - SUBMITTING ===");
           try {
             const { attemptCount: count } = await client.getAttemptCount(
               quizId,
-              currentUser.id
+              currentUser._id
             );
             setAttemptCount(count);
             setCurrentAttempt(count + 1);
@@ -70,7 +70,7 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
             if (count > 0) {
               const latestSubmission = await client.getLatestSubmission(
                 quizId,
-                currentUser.id
+                currentUser._id
               );
               if (latestSubmission) {
                 setAnswers(latestSubmission.answers);
@@ -109,25 +109,31 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
   };
 
   const handleSubmitQuiz = async (studentAnswers: any) => {
+    console.log("handleSubmitQuiz STARTED");
     try {
       setSubmitting(true);
       const quizId = Array.isArray(qid) ? qid[0] : qid;
       const courseId = Array.isArray(id) ? id[0] : id;
 
-      // Calculate score
+      console.log("=== QUIZ SUBMISSION DEBUG ===");
+      console.log("isStudent:", isStudent);
+      console.log("currentUser?.id:", currentUser?.id);
+      console.log("quizId:", quizId);
+      console.log("courseId:", courseId);
+
       const result = calculateQuizScore(quiz.questions || [], studentAnswers);
+      console.log("Calculated result:", result);
 
       setAnswers(studentAnswers);
       setScoringResult(result);
       setShowResults(true);
       setIsTakingQuiz(false);
 
-      // Save submission to database (for students only)
-      if (isStudent && currentUser?.id && quizId && courseId) {
+      if (isStudent && currentUser?._id && quizId && courseId) {
         try {
           await client.submitQuiz(
             quizId,
-            currentUser.id,
+            currentUser._id,
             courseId,
             studentAnswers,
             {
@@ -138,18 +144,24 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
             currentAttempt,
             result.results
           );
-          // Update attempt count
+          console.log("✓ Submission successful!");
           setAttemptCount((prev) => prev + 1);
         } catch (error) {
-          console.error("Error saving submission:", error);
+          console.error("✗ Error in submitQuiz call:", error);
         }
+      } else {
       }
     } catch (error) {
-      console.error("Error submitting quiz:", error);
+      console.error("ERROR IN handleSubmitQuiz:", error);
+      console.error(
+        "Error stack:",
+        error instanceof Error ? error.stack : "No stack trace"
+      );
     } finally {
       setSubmitting(false);
     }
   };
+
   const handleRetakeQuiz = () => {
     setAnswers(null);
     setScoringResult(null);
@@ -162,6 +174,8 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
     setScoringResult(null);
     setShowResults(false);
     setIsTakingQuiz(false);
+    const courseId = Array.isArray(id) ? id[0] : id;
+    router.push(`/Courses/${courseId}/Quizzes`);
   };
 
   if (loading) {
@@ -271,7 +285,7 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
 
       {/* Start Quiz Button */}
       <div className="mt-4 d-flex justify-content-center">
-        {isStudent && currentAttempt > totalAttempts ? (
+        {isStudent && quiz.attempts && attemptCount >= quiz.attempts_num ? (
           <Alert variant="warning" className="w-100">
             You have exhausted all attempts for this quiz.
           </Alert>
@@ -281,9 +295,7 @@ export default function QuizPreview({ userRole }: QuizPreviewProps) {
             onClick={handleStartQuiz}
             disabled={submitting}
           >
-            {isFaculty
-              ? "Preview Quiz as Student"
-              : `Start Quiz (Attempt ${currentAttempt} of ${totalAttempts})`}
+            {isFaculty ? "Preview Quiz as Student" : "Start Quiz"}
           </button>
         )}
       </div>

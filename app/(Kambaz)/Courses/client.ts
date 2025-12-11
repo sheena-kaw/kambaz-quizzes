@@ -229,6 +229,15 @@ export const submitQuiz = async (
   attemptNumber: number,
   results: any
 ) => {
+  console.log("submitQuiz client called with:", {
+    quizId,
+    studentId,
+    courseId,
+    answers,
+    score,
+    attemptNumber,
+    results,
+  });
   const { data } = await axiosWithCredentials.post(
     `${HTTP_SERVER}/api/quizzes/${quizId}/submit`,
     {
@@ -273,6 +282,13 @@ export const getAttemptCount = async (quizId: string, studentId: string) => {
 export const getAllSubmissionsForQuiz = async (quizId: string) => {
   const { data } = await axiosWithCredentials.get(
     `${HTTP_SERVER}/api/quizzes/${quizId}/submissions`
+  );
+  return data;
+};
+
+export const getSubmission = async (submissionId: string) => {
+  const { data } = await axiosWithCredentials.get(
+    `${HTTP_SERVER}/api/submissions/${submissionId}`
   );
   return data;
 };

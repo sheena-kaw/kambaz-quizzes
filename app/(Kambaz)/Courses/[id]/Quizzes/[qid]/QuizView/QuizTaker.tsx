@@ -60,6 +60,9 @@ export default function QuizTaker({
   };
 
   const handleSubmit = () => {
+    console.log("handleSubmit in QuizTaker called!");
+    console.log("answers:", answers);
+    console.log("onSubmit function:", onSubmit);
     onSubmit(answers);
   };
 
@@ -107,7 +110,6 @@ export default function QuizTaker({
               </h5>
               <p className="mb-4">{currentQuestion.questionText}</p>
 
-
               {currentQuestion.questionType === "MULTIPLE_CHOICE" && (
                 <div>
                   <p className="fw-semibold mb-2">Choose one:</p>
@@ -131,7 +133,6 @@ export default function QuizTaker({
                   ))}
                 </div>
               )}
-
 
               {currentQuestion.questionType === "TRUE_FALSE" && (
                 <div>
